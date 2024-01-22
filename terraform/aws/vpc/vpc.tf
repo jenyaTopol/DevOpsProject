@@ -1,3 +1,10 @@
+
+data "aws_availability_zones" "available" {}
+
+resource "random_integer" "random" {
+  min = 1
+  max = 100
+}
 resource "aws_vpc" "devops_vpc" {
   cidr_block = var.vpc_cidr
   enable_dns_support   = true
@@ -12,7 +19,7 @@ resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.devops_vpc.id
   cidr_block              = var.public_cidr[count.index]
   map_public_ip_on_launch = true
-  availability_zone       = 
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
 
   tags = {
     Name = "PublicSubnet"
@@ -23,7 +30,7 @@ resource "aws_subnet" "private_subnet" {
   count = var.private_sn_count  
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = "us-east-1a" # Change this to your desired AZ
+  availability_zone       = data.aws_availability_zones.available.names[count.index] 
 
   tags = {
     Name = "PrivateSubnet"
@@ -52,7 +59,7 @@ resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.my_vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = 
     gateway_id = aws_internet_gateway.gw.id
   }
 
@@ -70,7 +77,7 @@ resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.my_vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = 
     nat_gateway_id = aws_nat_gateway.nat_gw.id
   }
 
