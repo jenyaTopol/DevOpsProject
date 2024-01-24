@@ -1,0 +1,13 @@
+# templates/pvc-jenkins.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.jenkins.persistence.claimName }}
+  namespace: devops-tools
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.jenkins.persistence.size }}

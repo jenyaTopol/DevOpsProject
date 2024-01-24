@@ -1,0 +1,17 @@
+# templates/service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+spec:
+  type: {{ .Values.jenkins.service.type }}
+  ports:
+    - port: {{ .Values.jenkins.service.ports.httpPort }}
+      targetPort: 8080
+      name: httpport
+    - port: {{ .Values.jenkins.service.ports.jnlpPort }}
+      targetPort: 50000
+      name: jnlpport
+  selector:
+    app: jenkins

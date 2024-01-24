@@ -1,0 +1,13 @@
+# templates/pvc-agent.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.jenkins.agentPvc.claimName }}
+  namespace: devops-tools
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.jenkins.agentPvc.size }}

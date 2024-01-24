@@ -1,0 +1,27 @@
+# values-stage.yaml
+global:
+  host: stage.gitlab.example.com
+  timezone: 'UTC'
+certmanager-issuer:
+  email: jenyadevops@gmail.com
+
+gitlab:
+  webservice:
+    replicas: 2
+
+postgresql:
+  install: true
+  persistence:
+    size: 50Gi
+
+redis:
+  persistence:
+    size: 10Gi
+
+nginx-ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  tls:
+    enabled: true
+    secretName: gitlab-tls

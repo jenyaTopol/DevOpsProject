@@ -1,0 +1,28 @@
+# values.yaml
+
+jenkins:
+  # Service Account
+  serviceAccount:
+    create: true
+    name: jenkins-admin
+  # PVC for Jenkins
+  persistence:
+    enabled: true
+    storageClass: "<your-storage-class>"
+    size: "50Gi"
+    claimName: jenkins-pv-claim
+  # Deployment Config
+  deployment:
+    image: jenkins/jenkins:lts
+    # ... other deployment configurations ...
+  # Service Config
+  service:
+    type: NodePort
+    ports:
+      httpPort: 8080
+      jnlpPort: 50000
+  # Agent's PVC for shared Maven repository
+  agentPvc:
+    enabled: true
+    size: "50Gi"
+    claimName: maven-repo-storage
