@@ -1,14 +1,29 @@
+# # templates/pv.yaml
+
 # apiVersion: v1
 # kind: PersistentVolume
 # metadata:
 #   name: jenkins-pv
-#   labels:
-#     type: local
 # spec:
-#   storageClassName: my-storage-class
 #   capacity:
-#     storage: 8Gi
+#     storage: {{ .Values.jenkins.persistence.size }}
 #   accessModes:
 #     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: manual
 #   hostPath:
-#     path: "/mnt/data/jenkins"
+#     path: /path/to/your/storage
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: repo-pv
+# spec:
+#   capacity:
+#     storage: {{ .Values.jenkins.agentPvc.size }}
+#   accessModes:
+#     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: manual
+#   hostPath:
+#     path: /path/to/your/agent/storage

@@ -1,29 +1,3 @@
-# templates/deployment.yaml
-
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: jenkins-deployment
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: jenkins
-#   template:
-#     metadata:
-#       labels:
-#         app: jenkins
-#     spec:
-#       serviceAccountName: {{ .Values.jenkins.serviceAccount.name }}
-#       containers:
-#         - name: jenkins
-#           image: {{ .Values.jenkins.deployment.image }}
-#           # ... other container configurations ...
-#       volumes:
-#         - name: jenkins-data
-#           persistentVolumeClaim:
-#               claimName: {{ .Values.jenkins.persistence.claimName }}
-              ###############################################33
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -48,10 +22,10 @@ spec:
           resources:
             limits:
               memory: "2Gi"
-              cpu: "1000m"
+              cpu: "100m"
             requests:
               memory: "500Mi"
-              cpu: "500m"
+              cpu: "100m"
           ports:
             - name: httpport
               containerPort: 8080
@@ -61,7 +35,7 @@ spec:
             httpGet:
               path: "/login"
               port: 8080
-            initialDelaySeconds: 90
+            initialDelaySeconds: 120
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 5
@@ -69,7 +43,7 @@ spec:
             httpGet:
               path: "/login"
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3

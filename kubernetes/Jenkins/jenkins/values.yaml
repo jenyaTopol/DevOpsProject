@@ -8,16 +8,16 @@ jenkins:
   # PVC for Jenkins
   persistence:
     enabled: true
-    # storageClass: "<your-storage-class>"
+    # storageClass: "<my-storage-class>"
     size: "15Gi"
     claimName: jenkins-pv-claim
   # Deployment Config
   deployment:
     image: jenkins/jenkins:lts
-    
+
   # Service Config
   service:
-    type: NodePort
+    type: ClusterIP
     ports:
       httpPort: 8080
       jnlpPort: 50000
