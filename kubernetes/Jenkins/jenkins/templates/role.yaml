@@ -4,7 +4,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: jenkins
-  namespace: devops-tools
+  namespace: jenkins
   labels:
     "app.kubernetes.io/name": 'jenkins'
 rules:

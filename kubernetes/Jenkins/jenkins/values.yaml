@@ -8,13 +8,13 @@ jenkins:
   # PVC for Jenkins
   persistence:
     enabled: true
-    storageClass: "<your-storage-class>"
-    size: "50Gi"
+    # storageClass: "<your-storage-class>"
+    size: "15Gi"
     claimName: jenkins-pv-claim
   # Deployment Config
   deployment:
     image: jenkins/jenkins:lts
-    # ... other deployment configurations ...
+    
   # Service Config
   service:
     type: NodePort
@@ -24,5 +24,5 @@ jenkins:
   # Agent's PVC for shared Maven repository
   agentPvc:
     enabled: true
-    size: "50Gi"
-    claimName: maven-repo-storage
+    size: "15Gi"
+    claimName: repo-storage

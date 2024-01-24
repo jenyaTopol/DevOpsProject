@@ -4,7 +4,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.jenkins.agentPvc.claimName }}
-  namespace: devops-tools
+  namespace: jenkins
 spec:
   accessModes:
     - ReadWriteOnce

@@ -4,7 +4,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: jenkins-role-binding
-  namespace: devops-tools
+  namespace: jenkins
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -12,4 +12,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ .Values.jenkins.serviceAccount.name }}
-  namespace: devops-tools
+  namespace: jenkins
