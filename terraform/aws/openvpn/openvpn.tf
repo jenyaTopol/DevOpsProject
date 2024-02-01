@@ -1,5 +1,5 @@
 resource "aws_instance" "openvpn_server" {
-  ami           = "ami-0abcd1234abcd1234" # Change to a suitable AMI for OpenVPN
+  ami           = "ami-0abcd1234abcd1234" # change ami
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public_subnet.id
   key_name      = "your-key-pair" # Change to your key pair
@@ -18,4 +18,6 @@ resource "aws_security_group" "openvpn_sg" {
   vpc_id      = aws_vpc.my_vpc.id
 
   # Add rules for OpenVPN server
+
+  
 }
