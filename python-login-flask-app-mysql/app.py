@@ -21,7 +21,7 @@ def signin():
 
         message = 'Sign In Successful'
 
-    return render_template('signin.html', message=message)
+    return render_template('sign-in.html', message=message)
 
 if __name__ == "__main__":
     database.create_user_table()  # Create the table on startup
