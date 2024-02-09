@@ -9,25 +9,31 @@ podTemplate(containers: [
         command: 'cat',
         ttyEnabled: true,
         privileged: true 
+    ),
+    containerTemplate(
+        name: 'git',
+        image: 'alpine/git', 
+        command: 'cat',
+        ttyEnabled: true
     )
 ]) {
     node(POD_LABEL) {
-        stage('Get a shell command') {
-            container('jnlp') {
-                stage('Shell Execution') {
-                    sh 'echo "Hello! I am executing shell"'
+        stage('Clone Repository') {
+            container('git') {
+                withCredentials([usernamePassword(credentialsId: 'githubCredentialsId', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    def branch = 'main'
+                    sh "git clone -b $branch https://$GIT_USERNAME:$GIT_PASSWORD@github.com/jenyat/python-flask-mysql.git ."
                 }
             }
         }
+
         stage('Build and Push Docker Image') {
             container('docker') {
-            
                 withCredentials([usernamePassword(credentialsId: 'dockerhubCredentialsId', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                     stage('Login to DockerHub') {
                         sh "echo \$DOCKERHUB_PASSWORD | docker login --username \$DOCKERHUB_USERNAME --password-stdin"
                     }
                     stage('Build Docker Image') {
-                        // Adjust the 'imageName' and 'tag' as necessary
                         def imageName = 'jenyat/python-flask-mysql'
                         def tag = 'latest'
                         sh "docker build -t \$imageName:\$tag ."
@@ -42,24 +48,3 @@ podTemplate(containers: [
         }
     }
 }
-
-
-podTemplate(containers: [
-    containerTemplate(
-        name: 'jnlp',
-        image: 'jenkins/inbound-agent:latest'
-    ),
-    containerTemplate(
-        name: 'docker',
-        image: 'docker:latest',
-        command: 'cat',
-        ttyEnabled: true,
-        privileged: true // Required to run Docker commands
-    ),
-    containerTemplate(
-        name: 'git',
-        image: 'alpine/git', // Using an Alpine image with Git installed
-        command: 'cat',
-        ttyEnabled: true
-    )
-]) 
