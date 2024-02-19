@@ -1,0 +1,14 @@
+# values.yaml
+
+replicaCount: 1
+
+image:
+  repository: your-docker-registry/your-python-live-chat-image
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5000
+
+# Add other configuration options as needed
