@@ -16,28 +16,7 @@ spec:
       securityContext:
         fsGroup: 1000 
         runAsUser: 1000
-      initContainers:
-
-        - name: setup-jenkins-user
-          image: jenkins/jenkins:latest
-          command:
-            - "sh"
-            - "-c"
-            - "adduser --system --uid 1000 --ingroup jenkins jenkins"
-          securityContext:
-            privileged: true
-
-        - name: install-docker
-          image: docker:latest
-          command:
-            - "sh"
-            - "-c"
-            - "apk update && apk add docker"
-          securityContext:
-            privileged: true
-
-
-      containers:
+    containers:
         - name: jenkins
           image: {{ .Values.jenkins.deployment.image}}
           resources:
@@ -75,3 +54,11 @@ spec:
         - name: jenkins-data
           persistentVolumeClaim:
             claimName: {{ .Values.jenkins.persistence.claimName }}
+
+
+
+
+
+
+
+
