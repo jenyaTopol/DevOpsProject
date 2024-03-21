@@ -14,3 +14,12 @@ helm delete jenkins-helm . -n jenkins
 
 
 need to install /.kubec/config on master
+
+
+
+FOR JENKINS:   
+    install roles rolebinding with the currect privligies and configure the names
+
+FOR KUBERNETES-DASHBOARD:
+    INSTALL cluster role and role binding and create authentication token and save it as kubenetes secret
+    
