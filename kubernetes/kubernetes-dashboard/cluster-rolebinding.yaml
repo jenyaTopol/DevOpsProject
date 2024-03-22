@@ -8,5 +8,5 @@ roleRef:
   name: dashboard-viewer
 subjects:
 - kind: ServiceAccount
-  name: <your-dashboard-service-account-name>
-  namespace: <namespace-where-dashboard-is-deployed>
+  name: kubernetes-dashboard-kong-proxy
+  namespace: kubernetes-dashboard
