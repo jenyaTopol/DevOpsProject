@@ -7,4 +7,4 @@ mysql:
   auth:
     database: "test_db"
     username: "root"
-    password: "root"
+    password: "rootPassword"
