@@ -1,18 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "myapp.fullname" . }}
-  labels:
-    {{- include "myapp.labels" . | nindent 4 }}
+  name: python-flask
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      {{- include "myapp.selectorLabels" . | nindent 6 }}
+      app: python-flask
   template:
     metadata:
       labels:
-        {{- include "myapp.selectorLabels" . | nindent 8 }}
+        app: python-flask
     spec:
       containers:
         - name: {{ .Chart.Name }}

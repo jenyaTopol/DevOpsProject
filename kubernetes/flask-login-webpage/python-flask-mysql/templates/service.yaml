@@ -1,15 +1,33 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "myapp.fullname" . }}
-  labels:
-    {{- include "myapp.labels" . | nindent 4 }}
+  name: python-flask
 spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: http
-      protocol: TCP
-      name: http
   selector:
-    {{- include "python-flask-mysql.selectorLabels" . | nindent 4 }}
+    app: python-flask
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
