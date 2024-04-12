@@ -18,18 +18,20 @@ helm delete jenkins-helm . -n jenkins
     run as docker:
         docker run -d -p 5000:5000 jenyat/python-flask-mysql:latest
 
-FOR KUBENETES:
+# FOR KUBENETES:
     install cert-manager to manage lets encrypt renewall of ssl certificates
     configure the nginx controller.
 
-FOR JENKINS:   
+ # FOR JENKINS:   
     install roles rolebinding with the currect privligies and configure the names
     need to install /.kubec/config on master
 
-FOR KUBERNETES-DASHBOARD:
+# FOR KUBERNETES-DASHBOARD:
     # Add kubernetes-dashboard repository
       helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
     # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
       helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
       create cluster-rolebinding.yaml and dashboard-user.yaml
       create token for authentication and sign-in
+# FOR INGRESS_CONTROLLER:
+helm install my-nginx-ingress ingress-nginx/ingress-nginx --set controller.service.enabled=false --namespace ingress-controller
