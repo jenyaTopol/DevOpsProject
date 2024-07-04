@@ -6,20 +6,20 @@ module "eks" {
   cluster_version = "1.30"
 
   cluster_endpoint_public_access  = true
-
-
+  cluster_endpoint_private_access = true
+  enable_irsa = true
 
   vpc_id                   = "vpc-1234556abcdef"
   subnet_ids               = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"]
 
   eks_managed_node_groups = {
-    example = {
+    dev-test = {
       # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
       ami_type       = "AL2023_x86_64_STANDARD"
       instance_types = ["m5.xlarge"]
 
-      min_size     = 2
-      max_size     = 10
+      min_size     = 1
+      max_size     = 5
       desired_size = 2
     }
   }
@@ -27,7 +27,6 @@ module "eks" {
   # Cluster access entry
   # To add the current caller identity as an administrator
   enable_cluster_creator_admin_permissions = true #need to whitelist addreses that can reach kubernetes
-  cluster_endpoint_private_access = true
   access_entries = {
     # One access entry with a policy associated
     example = {

@@ -117,7 +117,7 @@ resource "aws_security_group" "public_sg" {
     from_prot  = 0 
     to_port    = 0
     protocol   = "-1"
-    cidr_block = [0.0.0.0/0]
+    cidr_block = "0.0.0.0/0"
   }
 }
 
@@ -142,7 +142,7 @@ resource "aws_security_group" "private_sg" {
 }
 
 resource "aws_db_subnet_group" "my_rds_subnetgroup" {
-  count var.aws_db_subnet_group == true ? 1 : 0
+#   count var.aws_db_subnet_group == true ? 1 : 0
   name       = "my_rds_subnetgroup"
   subnet_ids = aws_subnet.private_subnet.*.id
   tags = {
