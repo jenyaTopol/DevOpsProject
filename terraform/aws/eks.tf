@@ -2,26 +2,15 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name    = "my-cluster"
+  cluster_name    = "my-dev-cluster"
   cluster_version = "1.30"
 
   cluster_endpoint_public_access  = true
 
-  cluster_addons = {
-    coredns                = {}
-    eks-pod-identity-agent = {}
-    kube-proxy             = {}
-    vpc-cni                = {}
-  }
+
 
   vpc_id                   = "vpc-1234556abcdef"
   subnet_ids               = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"]
-  control_plane_subnet_ids = ["subnet-xyzde987", "subnet-slkjf456", "subnet-qeiru789"]
-
-  # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults = {
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
-  }
 
   eks_managed_node_groups = {
     example = {
@@ -37,8 +26,8 @@ module "eks" {
 
   # Cluster access entry
   # To add the current caller identity as an administrator
-  enable_cluster_creator_admin_permissions = true
-
+  enable_cluster_creator_admin_permissions = true #need to whitelist addreses that can reach kubernetes
+  cluster_endpoint_private_access = true
   access_entries = {
     # One access entry with a policy associated
     example = {
@@ -90,12 +79,12 @@ module "eks_blueprints_addons" {
 
   enable_aws_load_balancer_controller    = true
   enable_cluster_proportional_autoscaler = true
-  enable_karpenter                       = true
-  enable_kube_prometheus_stack           = true
-  enable_metrics_server                  = true
+  enable_karpenter                       = false
+  enable_kube_prometheus_stack           = false
+  enable_metrics_server                  = false
   enable_external_dns                    = true
-  enable_cert_manager                    = true
-  cert_manager_route53_hosted_zone_arns  = ["arn:aws:route53:::hostedzone/XXXXXXXXXXXXX"]
+  enable_cert_manager                    = false
+#  cert_manager_route53_hosted_zone_arns  = ["arn:aws:route53:::hostedzone/XXXXXXXXXXXXX"]
 
   tags = {
     Environment = "dev"

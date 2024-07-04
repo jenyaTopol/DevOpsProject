@@ -1,0 +1,27 @@
+###########vpc-variables.tf#######
+
+
+variable "vpc_cidr" {
+    type = string
+}
+
+variable "public_cidrs" {
+    type = list
+}
+
+variable "private_cidrs" {
+    type = list
+}
+
+variable "public_sn_count" {
+    type = number
+}
+
+variable "private_sn_count" {
+    type = number
+}
+variable "security_groups" {}
+
+variable "aws_db_subnet_group" {
+    type = bool
+}
