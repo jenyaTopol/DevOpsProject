@@ -1,7 +1,7 @@
 resource "aws_security_group" "rds_sg" {
   name        = "my-rds-sg"
   description = "Security group for RDS instance"
-  vpc_id      = vpc.outputs.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   # Ingress rule to allow SQL traffic, replace with your IP/CIDR
   ingress {

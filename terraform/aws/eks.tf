@@ -6,11 +6,12 @@ module "eks" {
   cluster_version = "1.30"
 
   cluster_endpoint_public_access  = true
+  cluster_endpoint_public_access_cidrs = ["0.0.0.0/32"] #change to my-ip
   cluster_endpoint_private_access = true
   enable_irsa = true
 
-  vpc_id                   = "vpc-1234556abcdef"
-  subnet_ids               = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"]
+  vpc_id                   = module.vpc.vpc_id
+  subnet_ids               = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"] #otputs of vpc module
 
   eks_managed_node_groups = {
     dev-test = {
@@ -24,9 +25,7 @@ module "eks" {
     }
   }
 
-  # Cluster access entry
-  # To add the current caller identity as an administrator
-  enable_cluster_creator_admin_permissions = true #need to whitelist addreses that can reach kubernetes
+  enable_cluster_creator_admin_permissions = true 
   access_entries = {
     # One access entry with a policy associated
     example = {

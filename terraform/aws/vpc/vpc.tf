@@ -24,7 +24,7 @@ resource "aws_vpc" "devops_vpc" {
 resource "aws_subnet" "public_subnet" {
   count                   = var.public_sn_count
   vpc_id                  = aws_vpc.devops_vpc.id
-  cidr_block              = var.public_cidr[count.index]
+  cidr_block              = var.public_cidrs[count.index]
   map_public_ip_on_launch = false
   availability_zone       = data.aws_availability_zones.available.names[count.index]
 
@@ -111,7 +111,7 @@ resource "aws_security_group" "public_sg" {
     from_port  = 80
     to_port    = 80
     protocol   = "tcp"
-    cidr_block = var.public_cidr
+    cidr_block = var.public_cidrs 
   }
   egress {
     from_prot  = 0 
@@ -130,14 +130,14 @@ resource "aws_security_group" "private_sg" {
     from_port     = 443
     to_port       = 443
     protocol      = "tcp"
-    cidr_blocks   = var.private_cidr
+    cidr_blocks   = var.private_cidrs
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "tcp"
-    cidr_blocks = var.private_cidr
+    cidr_blocks = var.private_cidrs
   }
 }
 
@@ -159,6 +159,6 @@ resource "aws_security_group" "mysql_sg" {
     from_port     = 3306
     to_port       = 3306
     protocol      = "tcp"
-    cidr_blocks   = var.private_cidr
+    cidr_blocks   = var.private_cidrs
   }
 }
