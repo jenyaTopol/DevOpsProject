@@ -6,11 +6,11 @@ module "eks" {
   cluster_version = "1.30"
 
   cluster_endpoint_public_access  = true
-  cluster_endpoint_public_access_cidrs = ["0.0.0.0/32"]
+  cluster_endpoint_public_access_cidrs = ["0.0.0.0/32"] #change to my-ip
   cluster_endpoint_private_access = true
   enable_irsa = true
 
-  vpc_id                   = vpc.outputs.vpc_id
+  vpc_id                   = module.vpc.vpc_id
   subnet_ids               = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"] #otputs of vpc module
 
   eks_managed_node_groups = {

@@ -44,14 +44,14 @@ resource "helm_release" "aws_efs_csi_driver" {
 resource "aws_security_group" "allow_nfs" {
   name        = "allow nfs for efs"
   description = "Allow NFS inbound traffic"
-  vpc_id      = local.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     description = "NFS from VPC"
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = [local.vpc_cidr]
+    cidr_blocks = [module.vpc.private_cidr]
   }
 
   egress {
