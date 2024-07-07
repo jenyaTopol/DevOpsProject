@@ -24,36 +24,27 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-module "db" {
-  source  = "terraform-aws-modules/rds/aws"
-  version = "~> 3.0"
 
-  identifier = "mysql-test-instance"
+module "cluster" {
+  source  = "terraform-aws-modules/rds-aurora/aws"
 
-  engine            = "mysql"
-  engine_version    = "8.0"
-  instance_class    = "db.t3.micro"
-  allocated_storage = 20
-  storage_type      = "gp2"
+  name           = "test-aurora-db-mysql"
+  engine         = "aurora-mysql"
+  engine_version = "8.0"
+  instance_class = "db.t3.micro"
+  instances = {
+    test = {}
+  }
 
-  db_name     = "test-db"
-  username    = "admin"
-  password    = "password"
-  port        = "3306"
-
-
-  subnet_ids             = ["subnet-12345678", "subnet-87654321"] ###need to insert private-subnet-id
-
-  create_db_option_group = false
-  create_db_parameter_group = false
-  create_db_subnet_group = true
-
-  deletion_protection = false
-  multi_az            = false
+  vpc_id               = module.vpc.vpc_id
+  db_subnet_group_name = module.vpc.db_security_group
   storage_encrypted   = true
-  publicly_accessible = false
-}
+  apply_immediately   = true
 
-output "db_instance_endpoint" {
-  value = module.db.db_instance_endpoint
+  enabled_cloudwatch_logs_exports = ["error"]
+
+  tags = {
+    Environment = "dev"
+    Terraform   = "true"
+  }
 }

@@ -20,8 +20,7 @@ variable "public_sn_count" {
 variable "private_sn_count" {
     type = number
 }
-variable "security_groups" {}
 
-variable "aws_db_subnet_group" {
+variable "db_subnet_group" {
     type = bool
 }

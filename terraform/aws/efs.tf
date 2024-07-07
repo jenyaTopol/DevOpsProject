@@ -51,7 +51,7 @@ resource "aws_security_group" "allow_nfs" {
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = [module.vpc.private_cidr]
+    cidr_blocks = module.vpc.private_cidrs
   }
 
   egress {
@@ -72,13 +72,13 @@ resource "aws_efs_file_system" "stw_node_efs" {
 
 resource "aws_efs_mount_target" "stw_node_efs_mt_0" {
   file_system_id  = aws_efs_file_system.stw_node_efs.id
-  subnet_id       = module.vpc.private_subnets[0]
+  subnet_id       = module.vpc.private_subnet[0]
   security_groups = [aws_security_group.allow_nfs.id]
 }
 
 resource "aws_efs_mount_target" "stw_node_efs_mt_1" {
   file_system_id  = aws_efs_file_system.stw_node_efs.id
-  subnet_id       = module.vpc.private_subnets[1]
+  subnet_id       = module.vpc.private_subnet[0]
   security_groups = [aws_security_group.allow_nfs.id]
 }
 
@@ -88,12 +88,12 @@ resource "aws_efs_access_point" "test" {
     gid = 1001
     uid = 1001
   }
-  root_directory{
+  root_directory {
     path = "/path0"
     creation_info {
-        owmer_gid = 1001
-        owmer_uid = 1001
-        permissioms = "755"
+      owner_gid   = 1001  
+      owner_uid   = 1001  
+      permissions = "755"  
     }
-  } 
+  }
 }
