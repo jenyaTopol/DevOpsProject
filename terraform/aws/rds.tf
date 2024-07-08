@@ -8,7 +8,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["192.168.1.1/32"]  # Replace with your IP/CIDR
+    cidr_blocks = module.vpc.private_cidrs  # Replace with your IP/CIDR
   }
 
   # Egress rule - allow all outbound traffic

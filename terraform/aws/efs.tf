@@ -78,7 +78,7 @@ resource "aws_efs_mount_target" "stw_node_efs_mt_0" {
 
 resource "aws_efs_mount_target" "stw_node_efs_mt_1" {
   file_system_id  = aws_efs_file_system.stw_node_efs.id
-  subnet_id       = module.vpc.private_subnet[0]
+  subnet_id       = module.vpc.private_subnet[1]
   security_groups = [aws_security_group.allow_nfs.id]
 }
 
