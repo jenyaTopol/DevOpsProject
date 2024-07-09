@@ -3,3 +3,8 @@ kind: StorageClass
 metadata:
   name: efs-sc
 provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: <your-efs-filesystem-id>
+  directoryPerms: "700"
+  accessPointId: <your-access-point-id>
