@@ -2,18 +2,25 @@ replicaCount: 1
 
 image:
   repository: wordpress
-  tag: 5.7.2-apache
+  tag: apache
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
 
 ingress:
   enabled: true
-  className: nginx
+  className: alb
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+     kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/actions.ssl-redirect: >
+      {"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:region:account-id:certificate/certificate-id
+    alb.ingress.kubernetes.io/subnets: subnet-abc123,subnet-def456
   hosts:
     - host: your-domain.com
       paths:
