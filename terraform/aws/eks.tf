@@ -96,3 +96,16 @@ module "eks_blueprints_addons" {
   }
 }
 
+
+resource "helm_release" "argocd" {
+  name = "argocd"
+
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  namespace        = "argocd"
+  create_namespace = true
+  version          = "3.35.4"#change version
+
+  values = [file("values/argocd.yaml")] 
+}
+
