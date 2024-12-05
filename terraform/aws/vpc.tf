@@ -21,3 +21,19 @@ module "vpc" {
 
   }
 }
+
+output "vpc_id" {
+  value = module.vpc.id
+}
+
+output "private_subnets" {
+  value = module.vpc.private.*.id
+}
+
+output "private_cidr_blocks" {
+  value = module.vpc.private.*.cidr_block
+}
+
+output "db_subnet_group" {
+  value = module.vpc.my_db_subnet_group.name
+}
