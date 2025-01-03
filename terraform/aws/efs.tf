@@ -51,7 +51,7 @@
 #     from_port   = 2049
 #     to_port     = 2049
 #     protocol    = "tcp"
-#     cidr_blocks = module.vpc.private_cidrs
+#     cidr_blocks = [module.vpc.vpc_cidr_block]
 #   }
 
 #   egress {
@@ -72,13 +72,13 @@
 
 # resource "aws_efs_mount_target" "stw_node_efs_mt_0" {
 #   file_system_id  = aws_efs_file_system.stw_node_efs.id
-#   subnet_id       = module.vpc.private_subnet[0]
+#   subnet_id       = module.vpc.private_subnets
 #   security_groups = [aws_security_group.allow_nfs.id]
 # }
 
 # resource "aws_efs_mount_target" "stw_node_efs_mt_1" {
 #   file_system_id  = aws_efs_file_system.stw_node_efs.id
-#   subnet_id       = module.vpc.private_subnet[1]
+#   subnet_id       = module.vpc.private_subnets
 #   security_groups = [aws_security_group.allow_nfs.id]
 # }
 
