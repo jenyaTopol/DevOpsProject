@@ -8,7 +8,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = module.vpc.private_cidrs  # Replace with your IP/CIDR
+    cidr_blocks = [module.vpc.vpc_cidr_block] # Replace with your IP/CIDR
   }
 
   # Egress rule - allow all outbound traffic
@@ -37,7 +37,7 @@ module "cluster" {
   }
 
   vpc_id               = module.vpc.vpc_id
-  db_subnet_group_name = module.vpc.db_security_group
+  db_subnet_group_name = module.vpc.database_subnet_group_name
   storage_encrypted   = true
   apply_immediately   = true
 

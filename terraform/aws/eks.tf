@@ -6,6 +6,10 @@
 #   name = module.eks.cluster_name 
 # }
 module "eks" {
+    depends_on = [
+    module.vpc.vpc_id
+  ]
+
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
@@ -18,7 +22,7 @@ module "eks" {
   enable_irsa = true
 
   vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = [module.vpc.private_subnet[0] ,module.vpc.private_subnet[1]] #otputs of vpc module
+  subnet_ids               = module.vpc.private_subnets
 
   eks_managed_node_groups = {
     dev-test = {
