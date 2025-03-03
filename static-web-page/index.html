@@ -1,0 +1,270 @@
+x   <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MShine Bracelet – Static Demo</title>
+  <style>
+    /* BASIC RESET & BODY */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background-color: #fff;
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #b49c57; /* A gold-ish color */
+      margin: 0;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 2rem;
+      background-color: #fffdf5; 
+    }
+    .hero-text {
+      max-width: 450px;
+      margin: 1rem;
+    }
+    .hero-text h2 {
+      font-size: 1.6rem;
+      color: #b49c57; 
+      margin-bottom: 1rem;
+    }
+    .hero-text p {
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .hero-images {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-images img {
+      max-width: 240px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    /* GALLERY SECTION */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+      gap: 1.5rem;
+      background-color: #fff;
+    }
+    .gallery img {
+      max-width: 220px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    /* CHATBOT WIDGET */
+    .chatbot-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 300px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: #b49c57;
+      color: #fff;
+      padding: 0.75rem;
+      text-align: center;
+      font-weight: 600;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 0.75rem;
+      overflow-y: auto;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    .chat-input-area input {
+      flex: 1;
+      border: none;
+      padding: 0.75rem;
+      outline: none;
+    }
+    .chat-input-area button {
+      background: #b49c57;
+      color: #fff;
+      border: none;
+      padding: 0 1rem;
+      cursor: pointer;
+    }
+    .chat-input-area button:hover {
+      background: #a68d50;
+    }
+    .bot-message {
+      background: #f4f4f4;
+      border-radius: 5px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      max-width: 80%;
+    }
+    .user-message {
+      background: #e8f0fe;
+      border-radius: 5px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      max-width: 80%;
+      margin-left: auto;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #fff;
+      border-top: 1px solid #eee;
+    }
+    footer p {
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    @media(max-width: 768px) {
+      .hero-section {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>MShine Bracelet</h1>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-text">
+      <h2>Exquisite Design</h2>
+      <p>
+        * For everyday style <br>
+        * For any holiday
+      </p>
+      <p>This bracelet will add sophistication to your look!</p>
+    </div>
+    <div class="hero-images">
+      <!-- Replace the src values with the actual filenames you upload to S3 -->
+      <img src="bracelet1.jpg" alt="MShine Bracelet Promo 1">
+      <img src="bracelet2.jpg" alt="MShine Bracelet Promo 2">
+    </div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section class="gallery">
+    <!-- Replace the src values with your actual image filenames -->
+    <img src="bracelet3.jpg" alt="MShine Bracelet on Wrist">
+    <img src="bracelet4.jpg" alt="MShine Bracelet Close-up">
+    <img src="bracelet5.jpg" alt="Another angle of MShine Bracelet">
+  </section>
+
+  <!-- SIMPLE CHATBOT WIDGET -->
+  <div class="chatbot-container">
+    <div class="chat-header">Chat with MShine</div>
+    <div class="chat-messages" id="chat-messages">
+      <!-- Initial Bot Welcome -->
+      <div class="bot-message">Hi! I'm MShine Bot. How can I help you today?</div>
+    </div>
+    <div class="chat-input-area">
+      <input 
+        type="text" 
+        id="chat-input" 
+        placeholder="Type your message..."
+        onkeypress="handleKeyPress(event)"
+      />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 MShine Jewelry. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+
+    // Send user message to chat and get a dummy bot response
+    function sendMessage() {
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+
+      // Append user message
+      const userMsgDiv = document.createElement('div');
+      userMsgDiv.classList.add('user-message');
+      userMsgDiv.textContent = userText;
+      chatMessages.appendChild(userMsgDiv);
+
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Clear input
+      chatInput.value = '';
+
+      // Simulate Bot reply
+      setTimeout(() => {
+        const botResponse = getBotReply(userText);
+        const botMsgDiv = document.createElement('div');
+        botMsgDiv.classList.add('bot-message');
+        botMsgDiv.textContent = botResponse;
+        chatMessages.appendChild(botMsgDiv);
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 500);
+    }
+
+    // Dummy bot logic
+    function getBotReply(userText) {
+      // Simple "if" logic for demonstration
+      if (userText.toLowerCase().includes('price')) {
+        return "This bracelet is available at a special discount price! Please check our store.";
+      } else if (userText.toLowerCase().includes('shipping')) {
+        return "We offer worldwide shipping. Typical delivery takes 7-14 days.";
+      } else {
+        return "Thanks for your message! For more details, visit our product page.";
+      }
+    }
+
+    // Send message on Enter key
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+  </script>
+</body>
+</html>
