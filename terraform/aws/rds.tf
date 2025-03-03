@@ -1,50 +1,49 @@
-resource "aws_security_group" "rds_sg" {
-  name        = "my-rds-sg"
-  description = "Security group for RDS instance"
-  vpc_id      = module.vpc.vpc_id
 
-  # Ingress rule to allow SQL traffic, replace with your IP/CIDR
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = [module.vpc.vpc_cidr_block] # Replace with your IP/CIDR
-  }
+# resource "aws_security_group" "rds_sg" {
+#   name        = "rds-security-group"
+#   description = "Allow MySQL inbound traffic"
+#   vpc_id      = module.vpc.vpc_id #module.vpc.vpc_id 
 
-  # Egress rule - allow all outbound traffic
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     from_port   = 3306
+#     to_port     = 3306
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"] 
+#   }
 
-  tags = {
-    Name = "RDS Security Group"
-  }
-}
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
+# resource "aws_db_subnet_group" "rds_subnet_group" {
+#   name       = "rds-subnet-group"
+#   subnet_ids = module.vpc.private_subnets #module.vpc.private_subnets  
+
+#   tags = {
+#     Name = "RDS Subnet Group"
+#   }
+# }
 
 
-module "cluster" {
-  source  = "terraform-aws-modules/rds-aurora/aws"
+# resource "aws_db_instance" "flask_mysql" {
+#   identifier           = "flask-mysql-db"
+#   allocated_storage    = 20
+#   engine               = "mysql"
+#   engine_version       = "8.0"
+#   instance_class       = "db.t3.micro"
+#   username            = "flaskuser"
+#   password            = "rootpassword" 
+#   parameter_group_name = "default.mysql8.0"
+#   publicly_accessible  = false
+#   skip_final_snapshot  = true
+#   db_subnet_group_name =  aws_db_subnet_group.rds_subnet_group.name
+#   vpc_security_group_ids = [aws_security_group.rds_sg.id]
+# }
 
-  name           = "test-aurora-db-mysql"
-  engine         = "aurora-mysql"
-  engine_version = "8.0"
-  instance_class = "db.t3.micro"
-  instances = {
-    test = {}
-  }
 
-  vpc_id               = module.vpc.vpc_id
-  db_subnet_group_name = module.vpc.database_subnet_group_name
-  storage_encrypted   = true
-  apply_immediately   = true
-
-  enabled_cloudwatch_logs_exports = ["error"]
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-  }
-}
+# output "rds_endpoint" {
+#   value = aws_db_instance.flask_mysql.endpoint
+# }

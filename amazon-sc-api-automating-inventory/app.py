@@ -1,5 +1,5 @@
-from amazon_sp_api.apis.Reports import Reports
-from amazon_sp_api.apis.Sellers import Sellers
+from sp_api.api import Orders
+from sp_api.api import Reports
 import boto3
 import json
 import logging
