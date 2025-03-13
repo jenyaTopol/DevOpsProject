@@ -1,9 +1,12 @@
 
 module "attach_efs_csi_role" {
+  depends_on = [module.vpc]
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
   role_name             = "efs-csi"
   attach_efs_csi_policy = true
+ 
+
 
   oidc_providers = {
     ex = {
@@ -16,6 +19,7 @@ module "attach_efs_csi_role" {
 resource "helm_release" "aws_efs_csi_driver" {
   chart      = "aws-efs-csi-driver"
   name       = "aws-efs-csi-driver"
+  depends_on = [module.vpc]
   namespace  = "kube-system"
   repository = "https://kubernetes-sigs.github.io/aws-efs-csi-driver/"
 
@@ -67,19 +71,25 @@ resource "aws_security_group" "allow_nfs" {
 
 resource "aws_efs_file_system" "stw_node_efs" {
   creation_token = "efs-for-stw-node"
+  depends_on = [module.vpc]
+
 }
 
 
-resource "aws_efs_mount_target" "stw_node_efs_mt_0" {
+resource "aws_efs_mount_target" "stw_node_efs_mt_01" {
+  depends_on = [module.vpc]
   file_system_id  = aws_efs_file_system.stw_node_efs.id
-  subnet_id       = module.vpc.private_subnets
+  subnet_id       = [module.vpc.private_subnets]
   security_groups = [aws_security_group.allow_nfs.id]
+  
 }
 
-resource "aws_efs_mount_target" "stw_node_efs_mt_1" {
+resource "aws_efs_mount_target" "stw_node_efs_mt_11" {
+  depends_on = [module.vpc]
   file_system_id  = aws_efs_file_system.stw_node_efs.id
   subnet_id       = module.vpc.private_subnets
   security_groups = [aws_security_group.allow_nfs.id]
+  
 }
 
 resource "aws_efs_access_point" "test" {
